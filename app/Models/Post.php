@@ -14,4 +14,14 @@ class Post extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function setPostImageAttribute($value) {
+        if (strpos($value, 'https://') === false) {
+            $this->attributes['post_image'] = 'storage/' . $value;
+        }
+    }
+
+    public function getPostImageAttribute($value) {
+        return asset($value);
+    }
 }

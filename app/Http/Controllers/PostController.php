@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\Post;
 
 class PostController extends Controller
 {
+    public function index() {
+        $posts = Post::all();
+        return view('admin.posts.index', ['posts' => $posts]);
+    }
+
     public function show(Post $post) {
         return view('blog-post', ['post' => $post]);
     }
@@ -16,7 +22,7 @@ class PostController extends Controller
     }
 
     // public function store(Request $request) {
-    public function store() {
+    public function store(Request $request) {
         // dd(request()->all());
         // return $user = auth()->user();
 
@@ -33,8 +39,16 @@ class PostController extends Controller
         }
 
         auth()->user()->posts()->create($inputs);
-        return back();
+        $request->session()->flash('message', 'Post was created!');
+        // return back();
+        return redirect()->route('post.index');
 
         // dd($request->post_image);
+    }
+
+    public function destroy(Post $post) {
+        $post->delete();
+        Session::flash('message', 'Post was deleted');
+        return back();
     }
 }
