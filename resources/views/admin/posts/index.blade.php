@@ -40,16 +40,18 @@
                 <tr>
                   <td>{{$post->id}}</td>
                   <td>{{$post->user->name}}</td>
-                  <td>{{$post->title}}</td>
+                  <td><a href="{{route('post.edit', $post->id)}}">{{$post->title}}</a></td>
                   <td><img src="{{$post->post_image}}" alt="post image" height="40px"></td>
                   <td>{{$post->created_at->diffForHumans()}}</td>
                   <td>{{$post->updated_at->diffForHumans()}}</td>
                   <td>
-                    <form action="{{route('post.destroy', $post->id)}}" method="post">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    @can('view', $post)
+                      <form action="{{route('post.destroy', $post->id)}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                    @endcan
                   </td>
                 </tr>
               @endforeach
@@ -58,11 +60,12 @@
         </div>
       </div>
     </div>
+    {{$posts->links()}}
   @endsection
 
   @section('scripts')
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+    {{-- <script src="{{ asset('js/demo/datatables-demo.js') }}"></script> --}}
   @endsection
 </x-admin-master>
