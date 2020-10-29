@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminsController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,9 @@ Route::middleware('auth')->group(function() {
   Route::delete('/admin/posts/{post}', [PostController::class, 'destroy'])->name('post.destroy');
   Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
   Route::patch('/admin/posts/{post}', [PostController::class, 'update'])->name('post.update');
+
+  Route::get('/admin/users/{user}/profile', [UserController::class, 'show'])->name('user.show');
+  Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('user.update');
 });
 
 // Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->middleware('can:view,post')->name('post.edit');
