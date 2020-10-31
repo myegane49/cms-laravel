@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function() {
 
   Route::get('/admin/users/{user}/profile', [UserController::class, 'show'])->name('user.show');
   Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('user.update');
+  Route::get('/admin/users', [UserController::class, 'index'])->name('user.index');
+  Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 });
 
 // Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->middleware('can:view,post')->name('post.edit');
