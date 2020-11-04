@@ -37,7 +37,9 @@
                       <th>Id</th>
                       <th>Name</th>
                       <th>Slug</th>
-                      <th>Delete</th>
+                      <th>Attach</th>
+                      <th>Detach</th>
+                      {{-- <th>Delete</th> --}}
                     </tr>
                   </thead>
                   <tfoot>
@@ -46,7 +48,9 @@
                       <th>Id</th>
                       <th>Name</th>
                       <th>Slug</th>
-                      <th>Delete</th>
+                      <th>Attach</th>
+                      <th>Detach</th>
+                      {{-- <th>Delete</th> --}}
                     </tr>
                   </tfoot>
                   <tbody>
@@ -63,12 +67,40 @@
                         <td><a href="">{{$permission->name}}</a></td>
                         <td>{{$permission->slug}}</td>
                         <td>
+                          <form action="{{route('role.permission.attach', $role->id)}}" method="post">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" value="{{$permission->id}}" name="permission">
+                            <button class="btn btn-primary"
+                              @if ($role->permissions->contains($permission))
+                                disabled
+                              @endif
+                            >
+                              Attach
+                            </button>
+                          </form>
+                        </td>
+                        <td>
+                          <form action="{{route('role.permission.detach', $role->id)}}" method="post">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" value="{{$permission->id}}" name="permission">
+                            <button class="btn btn-danger"
+                              @if (!$role->permissions->contains($permission))
+                                disabled
+                              @endif
+                            >
+                              Detach
+                            </button>
+                          </form>
+                        </td>
+                        {{-- <td>
                           <form action="" method="post">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger">Delete</button>
                           </form>
-                        </td>
+                        </td> --}}
                       </tr>
                     @endforeach
                   </tbody>
